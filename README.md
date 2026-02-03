@@ -229,10 +229,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_capacity_provider_strategy"></a> [capacity\_provider\_strategy](#input\_capacity\_provider\_strategy) | Capacity provider strategy for the ECS task. Use this for Fargate Spot. If set, overrides ecs\_launch\_type. Example: [{ capacity\_provider = "FARGATE\_SPOT", weight = 1, base = 0 }] | <pre>list(object({<br/>    capacity_provider = string<br/>    weight            = optional(number)<br/>    base              = optional(number)<br/>  }))</pre> | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | Description for the triggerable task. If not provided, a default description will be generated. | `string` | `""` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of the ECS cluster | `string` | n/a | yes |
-| <a name="input_ecs_launch_type"></a> [ecs\_launch\_type](#input\_ecs\_launch\_type) | Launch type for the ECS task (FARGATE or EC2). Ignored if capacity\_provider\_strategy is set. | `string` | `"FARGATE"` | no |
 | <a name="input_initial_role"></a> [initial\_role](#input\_initial\_role) | ARN of the IAM role to use for both task role and execution role | `string` | `""` | no |
 | <a name="input_log_retention_days"></a> [log\_retention\_days](#input\_log\_retention\_days) | Number of days to retain logs | `number` | `7` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the triggerable task | `string` | n/a | yes |
@@ -242,7 +240,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_capacity_provider_strategy"></a> [capacity\_provider\_strategy](#output\_capacity\_provider\_strategy) | Capacity provider strategy configuration (empty if using launch\_type) |
 | <a name="output_cloudwatch_log_group_arn"></a> [cloudwatch\_log\_group\_arn](#output\_cloudwatch\_log\_group\_arn) | ARN of the CloudWatch log group |
 | <a name="output_cloudwatch_log_group_name"></a> [cloudwatch\_log\_group\_name](#output\_cloudwatch\_log\_group\_name) | Name of the CloudWatch log group |
 | <a name="output_cluster_arn"></a> [cluster\_arn](#output\_cluster\_arn) | ARN of the ECS cluster (for use with aws ecs run-task) |
