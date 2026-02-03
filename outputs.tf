@@ -31,16 +31,9 @@ output "cluster_arn" {
 output "task_details" {
   description = "Details about the triggerable task configuration"
   value = {
-    cluster_name              = var.ecs_cluster_name
-    cluster_arn               = data.aws_ecs_cluster.ecs_cluster.arn
-    task_name                 = var.name
-    task_definition_family    = aws_ecs_task_definition.task_definition.family
-    launch_type               = length(var.capacity_provider_strategy) == 0 ? var.ecs_launch_type : "capacity_provider"
-    capacity_provider_enabled = length(var.capacity_provider_strategy) > 0
+    cluster_name           = var.ecs_cluster_name
+    cluster_arn            = data.aws_ecs_cluster.ecs_cluster.arn
+    task_name              = var.name
+    task_definition_family = aws_ecs_task_definition.task_definition.family
   }
-}
-
-output "capacity_provider_strategy" {
-  description = "Capacity provider strategy configuration (empty if using launch_type)"
-  value       = var.capacity_provider_strategy
 }

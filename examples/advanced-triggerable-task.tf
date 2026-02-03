@@ -79,26 +79,6 @@ module "secure_task" {
 }
 
 ################################################################################
-# EC2 Launch Type
-################################################################################
-
-module "ec2_task" {
-  source = "../"
-
-  ecs_cluster_name = "ec2-cluster"
-  name             = "batch-processor"
-  description      = "Batch processor running on EC2"
-
-  # Use EC2 launch type
-  ecs_launch_type = "EC2"
-
-  tags = {
-    Environment = "production"
-    LaunchType  = "EC2"
-  }
-}
-
-################################################################################
 # Multiple Tasks with for_each
 ################################################################################
 

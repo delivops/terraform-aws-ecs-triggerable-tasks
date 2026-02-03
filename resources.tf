@@ -55,12 +55,12 @@ resource "aws_iam_role_policy_attachment" "task_execution_policy" {
 ###############################################################################
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = local.task_family
-  network_mode             = local.is_fargate ? "awsvpc" : "bridge"
-  requires_compatibilities = [local.requires_compatibility]
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
 
-  # CPU and Memory required for Fargate
-  cpu    = local.is_fargate ? "256" : null
-  memory = local.is_fargate ? "512" : null
+  # Minimal CPU and Memory for placeholder (Fargate requirements)
+  cpu    = "256"
+  memory = "512"
 
   # Use provided role or created execution role
   task_role_arn      = var.initial_role != "" ? var.initial_role : null
