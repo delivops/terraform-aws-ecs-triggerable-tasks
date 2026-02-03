@@ -16,10 +16,6 @@ module "fargate_spot_task" {
   name             = "data-sync-spot"
   description      = "Data sync task on Fargate Spot"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # 100% Fargate Spot configuration
   capacity_provider_strategy = [
     {
@@ -29,7 +25,6 @@ module "fargate_spot_task" {
     }
   ]
 
-  assign_public_ip   = false
   log_retention_days = 7
 
   tags = {
@@ -52,10 +47,6 @@ module "mixed_strategy_task" {
   name             = "report-generator-mixed"
   description      = "Report generator with mixed capacity strategy"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # Mixed capacity provider strategy
   capacity_provider_strategy = [
     {
@@ -70,7 +61,6 @@ module "mixed_strategy_task" {
     }
   ]
 
-  assign_public_ip   = false
   log_retention_days = 14
 
   tags = {
@@ -93,10 +83,6 @@ module "spot_with_base_task" {
   name             = "critical-processor"
   description      = "Critical processor with guaranteed base capacity"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # Ensure at least 1 task always runs on regular Fargate
   capacity_provider_strategy = [
     {
@@ -111,7 +97,6 @@ module "spot_with_base_task" {
     }
   ]
 
-  assign_public_ip   = false
   log_retention_days = 30
 
   tags = {
@@ -133,14 +118,9 @@ module "regular_fargate_task" {
   name             = "payment-processor"
   description      = "Critical payment processor on regular Fargate"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # No capacity_provider_strategy = uses default ecs_launch_type = "FARGATE"
   # This is regular, guaranteed Fargate capacity
 
-  assign_public_ip   = false
   log_retention_days = 90
 
   tags = {

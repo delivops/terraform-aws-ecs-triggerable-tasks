@@ -11,10 +11,6 @@ module "data_sync_task" {
   name             = "data-sync"
   description      = "Data synchronization task"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # Use default launch type (FARGATE)
   # Task definition will be managed externally
 
@@ -35,10 +31,6 @@ module "batch_processor" {
   name             = "batch-processor"
   description      = "Batch data processing task"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   log_retention_days = 14
 
   tags = {
@@ -58,10 +50,6 @@ module "etl_task" {
   name             = "etl-pipeline"
   description      = "ETL pipeline for data transformation"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   tags = {
     Environment = "production"
     Pipeline    = "etl"
@@ -78,12 +66,6 @@ module "health_check_task" {
   ecs_cluster_name = var.cluster_name
   name             = "health-check"
   description      = "Health check task for external services"
-
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
-  assign_public_ip = true # Needs internet access
 
   tags = {
     Environment = "production"
@@ -109,8 +91,7 @@ module "health_check_task" {
 #   --cluster $(terraform output -raw module.data_sync_task.cluster_arn) \
 #   --task-definition $(terraform output -raw module.data_sync_task.task_definition_family)
 
-# Expected resources created:
-# - 1 ECS Task Definition per module
-# - 1 EventBridge Schedule per module
-# - 1 CloudWatch Log Group per module
-# - 1 IAM Role + Policy (shared, if not provided)
+# Expected resources created per module:
+# - 1 ECS Task Definition
+# - 1 CloudWatch Log Group
+# - 1 IAM Role + Policy (if not provided)

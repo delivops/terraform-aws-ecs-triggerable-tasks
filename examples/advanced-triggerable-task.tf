@@ -67,15 +67,8 @@ module "secure_task" {
   name             = "secure-data-processor"
   description      = "Secure data processor with custom permissions"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # Use the custom IAM role
   initial_role = aws_iam_role.custom_task_role.arn
-
-  # Don't assign public IP for security
-  assign_public_ip = false
 
   log_retention_days = 30
 
@@ -86,7 +79,7 @@ module "secure_task" {
 }
 
 ################################################################################
-# EC2 Launch Type with Placement Constraints
+# EC2 Launch Type
 ################################################################################
 
 module "ec2_task" {
@@ -96,20 +89,8 @@ module "ec2_task" {
   name             = "batch-processor"
   description      = "Batch processor running on EC2"
 
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
-
   # Use EC2 launch type
   ecs_launch_type = "EC2"
-
-  # EC2-specific placement constraints
-  placement_constraints = [
-    {
-      type       = "memberOf"
-      expression = "attribute:ecs.instance-type =~ t3.*"
-    }
-  ]
 
   tags = {
     Environment = "production"
@@ -142,10 +123,6 @@ module "multiple_tasks" {
   ecs_cluster_name = var.cluster_name
   name             = each.key
   description      = each.value.description
-
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
 
   tags = {
     Environment = "production"

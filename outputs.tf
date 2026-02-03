@@ -37,9 +37,6 @@ output "task_details" {
     task_definition_family    = aws_ecs_task_definition.task_definition.family
     launch_type               = length(var.capacity_provider_strategy) == 0 ? var.ecs_launch_type : "capacity_provider"
     capacity_provider_enabled = length(var.capacity_provider_strategy) > 0
-    subnet_ids                = var.subnet_ids
-    security_group_ids        = var.security_group_ids
-    assign_public_ip          = var.assign_public_ip
   }
 }
 

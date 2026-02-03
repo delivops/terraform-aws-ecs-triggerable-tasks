@@ -14,21 +14,6 @@ variable "description" {
   default     = ""
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC"
-  type        = string
-}
-
-variable "subnet_ids" {
-  description = "Subnet IDs for the ECS tasks"
-  type        = list(string)
-}
-
-variable "security_group_ids" {
-  description = "Security group IDs for the ECS tasks"
-  type        = list(string)
-}
-
 variable "ecs_launch_type" {
   description = "Launch type for the ECS task (FARGATE or EC2). Ignored if capacity_provider_strategy is set."
   type        = string
@@ -57,12 +42,6 @@ variable "capacity_provider_strategy" {
   }
 }
 
-variable "assign_public_ip" {
-  description = "Assign public IP to ECS tasks (Fargate only)"
-  type        = bool
-  default     = false
-}
-
 variable "initial_role" {
   description = "ARN of the IAM role to use for both task role and execution role"
   type        = string
@@ -83,41 +62,4 @@ variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
-}
-
-variable "platform_version" {
-  description = "Platform version for Fargate tasks"
-  type        = string
-  default     = "LATEST"
-}
-
-variable "propagate_tags" {
-  description = "Propagate tags from the task definition or the service to the tasks"
-  type        = string
-  default     = "TASK_DEFINITION"
-  validation {
-    condition     = contains(["TASK_DEFINITION", "NONE"], var.propagate_tags)
-    error_message = "propagate_tags must be either TASK_DEFINITION or NONE."
-  }
-}
-
-variable "placement_constraints" {
-  description = "Placement constraints for EC2 launch type"
-  type = list(object({
-    type       = string
-    expression = string
-  }))
-  default = []
-}
-
-variable "enable_ecs_managed_tags" {
-  description = "Enable ECS managed tags for the tasks"
-  type        = bool
-  default     = true
-}
-
-variable "group" {
-  description = "Group name for the triggerable tasks"
-  type        = string
-  default     = ""
 }

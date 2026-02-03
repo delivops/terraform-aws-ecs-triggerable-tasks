@@ -26,10 +26,6 @@ module "ecs_triggerable_task" {
   ecs_cluster_name = "my-cluster"
   name             = "data-sync"
   description      = "Syncs data on demand"
-  
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
 }
 ```
 
@@ -92,10 +88,6 @@ module "data_sync_task" {
   ecs_cluster_name = "my-cluster"
   name             = "data-sync"
   description      = "Syncs data between sources"
-  
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
 }
 
 module "report_generator_task" {
@@ -104,10 +96,6 @@ module "report_generator_task" {
   ecs_cluster_name = "my-cluster"
   name             = "report-generator"
   description      = "Generates reports on demand"
-  
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
 }
 ```
 
@@ -121,10 +109,6 @@ module "fargate_spot_task" {
   ecs_cluster_name = "my-cluster"
   name             = "batch-job"
   description      = "Batch job on Spot"
-  
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
   
   # Use 100% Fargate Spot for maximum cost savings (up to 70% cheaper)
   capacity_provider_strategy = [
@@ -146,10 +130,6 @@ module "mixed_capacity_task" {
   ecs_cluster_name = "production"
   name             = "balanced-task"
   description      = "Balanced task with mixed capacity"
-  
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnet_ids
-  security_group_ids = var.security_group_ids
   
   # Mixed strategy: 70% Spot (cost savings) + 30% Regular (reliability)
   capacity_provider_strategy = [
@@ -249,23 +229,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Assign public IP to ECS tasks (Fargate only) | `bool` | `false` | no |
 | <a name="input_capacity_provider_strategy"></a> [capacity\_provider\_strategy](#input\_capacity\_provider\_strategy) | Capacity provider strategy for the ECS task. Use this for Fargate Spot. If set, overrides ecs\_launch\_type. Example: [{ capacity\_provider = "FARGATE\_SPOT", weight = 1, base = 0 }] | <pre>list(object({<br/>    capacity_provider = string<br/>    weight            = optional(number)<br/>    base              = optional(number)<br/>  }))</pre> | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | Description for the triggerable task. If not provided, a default description will be generated. | `string` | `""` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of the ECS cluster | `string` | n/a | yes |
 | <a name="input_ecs_launch_type"></a> [ecs\_launch\_type](#input\_ecs\_launch\_type) | Launch type for the ECS task (FARGATE or EC2). Ignored if capacity\_provider\_strategy is set. | `string` | `"FARGATE"` | no |
-| <a name="input_enable_ecs_managed_tags"></a> [enable\_ecs\_managed\_tags](#input\_enable\_ecs\_managed\_tags) | Enable ECS managed tags for the tasks | `bool` | `true` | no |
-| <a name="input_group"></a> [group](#input\_group) | Group name for the triggerable tasks | `string` | `""` | no |
 | <a name="input_initial_role"></a> [initial\_role](#input\_initial\_role) | ARN of the IAM role to use for both task role and execution role | `string` | `""` | no |
 | <a name="input_log_retention_days"></a> [log\_retention\_days](#input\_log\_retention\_days) | Number of days to retain logs | `number` | `7` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the triggerable task | `string` | n/a | yes |
-| <a name="input_placement_constraints"></a> [placement\_constraints](#input\_placement\_constraints) | Placement constraints for EC2 launch type | <pre>list(object({<br/>    type       = string<br/>    expression = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | Platform version for Fargate tasks | `string` | `"LATEST"` | no |
-| <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | Propagate tags from the task definition or the service to the tasks | `string` | `"TASK_DEFINITION"` | no |
-| <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | Security group IDs for the ECS tasks | `list(string)` | n/a | yes |
-| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnet IDs for the ECS tasks | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `string` | n/a | yes |
 
 ## Outputs
 

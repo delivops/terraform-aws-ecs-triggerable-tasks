@@ -12,10 +12,6 @@ module "test_minimal" {
 
   ecs_cluster_name = "test-cluster"
   name             = "test-minimal"
-
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678", "subnet-87654321"]
-  security_group_ids = ["sg-12345678"]
 }
 
 ################################################################################
@@ -26,23 +22,14 @@ module "test_full_config" {
   source = "../"
 
   # Required parameters
-  ecs_cluster_name   = "test-cluster"
-  name               = "test-full"
-  description        = "Full configuration test"
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678", "subnet-87654321"]
-  security_group_ids = ["sg-12345678", "sg-87654321"]
+  ecs_cluster_name = "test-cluster"
+  name             = "test-full"
+  description      = "Full configuration test"
 
   # Optional parameters
-  ecs_launch_type         = "FARGATE"
-  assign_public_ip        = true
-  initial_role            = ""
-  log_retention_days      = 14
-  platform_version        = "LATEST"
-  propagate_tags          = "TASK_DEFINITION"
-  enable_ecs_managed_tags = true
-
-  placement_constraints = []
+  ecs_launch_type    = "FARGATE"
+  initial_role       = ""
+  log_retention_days = 14
 
   tags = {
     Test        = "true"
@@ -61,21 +48,9 @@ module "test_ec2_launch" {
   ecs_cluster_name = "ec2-cluster"
   name             = "test-ec2"
 
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
-
   ecs_launch_type = "EC2"
 
-  placement_constraints = [
-    {
-      type       = "memberOf"
-      expression = "attribute:ecs.instance-type =~ t3.*"
-    }
-  ]
-
   # Note: For EC2, network_mode will be "bridge" instead of "awsvpc"
-  # and certain parameters like assign_public_ip won't apply
 }
 
 ################################################################################
@@ -87,10 +62,6 @@ module "test_fargate_spot" {
 
   ecs_cluster_name = "test-cluster"
   name             = "test-spot"
-
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
 
   capacity_provider_strategy = [
     {
@@ -106,10 +77,6 @@ module "test_mixed_capacity" {
 
   ecs_cluster_name = "test-cluster"
   name             = "test-mixed"
-
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
 
   capacity_provider_strategy = [
     {
@@ -150,10 +117,6 @@ module "test_custom_iam" {
   ecs_cluster_name = "test-cluster"
   name             = "test-custom-iam"
 
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
-
   initial_role = aws_iam_role.test_task_role.arn
 }
 
@@ -167,10 +130,6 @@ module "test_short_retention" {
   ecs_cluster_name = "test-cluster"
   name             = "test-short-logs"
 
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
-
   log_retention_days = 1
 }
 
@@ -179,10 +138,6 @@ module "test_long_retention" {
 
   ecs_cluster_name = "test-cluster"
   name             = "test-long-logs"
-
-  vpc_id             = "vpc-12345678"
-  subnet_ids         = ["subnet-12345678"]
-  security_group_ids = ["sg-12345678"]
 
   log_retention_days = 365
 }
